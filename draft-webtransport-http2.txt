@@ -84,7 +84,7 @@ Table of Contents
 
 1.  Introduction
 
-   TODO Introduction
+   Introduction
 
 2.  Conventions and Definitions
 
@@ -96,7 +96,7 @@ Table of Contents
 
 3.  Security Considerations
 
-   TODO Security
+   Security
 
 4.  IANA Considerations
 
@@ -123,7 +123,7 @@ Internet-Draft              WebTransportHTTP2              February 2020
 
 Acknowledgments
 
-   TODO acknowledge.
+   Acknowledge.
 
 Author's Address
 
