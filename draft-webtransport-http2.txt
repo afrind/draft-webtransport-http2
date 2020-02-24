@@ -96,13 +96,13 @@ Table of Contents
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
      6.1.  HTTP/2 Frame Type Registry  . . . . . . . . . . . . . . .  13
      6.2.  HTTP/2 Settings Registry  . . . . . . . . . . . . . . . .  13
-     6.3.  HTTP/2 Error Code Registry  . . . . . . . . . . . . . . .  14
+     6.3.  HTTP/2 Error Code Registry  . . . . . . . . . . . . . . .  13
      6.4.  Upgrade Token Registration  . . . . . . . . . . . . . . .  14
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  15
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  16
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
 
 
 
@@ -531,11 +531,6 @@ Internet-Draft              WebTransportHTTP2              February 2020
    indicating that additional data is prohibited on the Connect Stream
    when using "webtransport" as the ":protocol" value.
 
-   In contrast, WebTransport Streams established with WTHEADERS frames
-   can be opened at any time by either endpoint and therefore need not
-   remain open beyond their immediate usage as part of the WebTransport
-   protocol.
-
 4.1.  Stream States
 
    WebTransport Connect Streams are regular HTTP/2 streams that follow
@@ -547,13 +542,18 @@ Internet-Draft              WebTransportHTTP2              February 2020
 
    If the corresponding Connect Stream is reset, endpoints MUST reset
    the WebTransport Streams associated with that Connect Stream.  If the
-   Connect Stream is closed, endpoints SHOULD allow any existing
-   WebTransport Streams to complete normally, however the Connect Stream
-   SHOULD remain open while communication is expected to continue.
+   Connect Stream is closed gracefully, endpoints SHOULD allow any
+   existing WebTransport Streams to complete normally, however the
+   Connect Stream SHOULD remain open while communication is expected to
+   continue.
 
    Endpoints SHOULD refresh any timeout on the Connect Stream while its
    associated WebTransport Streams are expected to remain open.  For
    example, an endpoint might choose to refresh a timeout on a Connect
+   Stream any time a corresponding timeout is refreshed on a
+   corresponding WebTransport Stream, such as when any data is sent or
+   received on that WebTransport Stream.
+
 
 
 
@@ -561,10 +561,6 @@ Frindell, et al.         Expires 27 August 2020                [Page 10]
 
 Internet-Draft              WebTransportHTTP2              February 2020
 
-
-   Stream any time a corresponding timeout is refreshed on a
-   corresponding WebTransport Stream, such as when any data is sent or
-   received on that WebTransport Stream.
 
    An endpoint MUST NOT initiate new WebTransport Streams that reference
    a Connect Stream that is in the closed or half closed (remote) state.
@@ -579,12 +575,12 @@ Internet-Draft              WebTransportHTTP2              February 2020
    concurrent stream limit, which is defined in Section 5.1.2 of
    [RFC7540].  The connection level and stream level flow control
    principles are still valid for WebTransport Streams.  However, for
-   stream priority and dependencies, WebTransport Streams have one extra
-   constraint: a WebTransport Streams can only have a dependency on its
-   Connect Stream, or any WebTransport Streams that also references the
-   same Connect Stream.  Prioritizing the WebTransport Streams across
-   different Connect Stream groupings does not make sense because they
-   belong to different services.
+   stream priority and dependencies, WebTransport Streams have one
+   additional constraint: a WebTransport Streams can only have a
+   dependency on its Connect Stream, or any WebTransport Streams that
+   also references the same Connect Stream.  Prioritizing the
+   WebTransport Streams across different Connect Stream groupings does
+   not make sense because they belong to different services.
 
    Note that while HTTP/2 Stream IDs are used by WebTransport Streams to
    refer to their corresponding WebTransport Connect Streams, the Stream
@@ -610,6 +606,10 @@ Internet-Draft              WebTransportHTTP2              February 2020
    An example of such routing, for both client-initiated and server-
    initiated WebTransport streams, is shown in Figure 2 and in Figure 3.
    Note that "webtransport" is specified as the ":protocol" being
+   negotiated by the CONNECT frame on both segments, and the
+   corresponding stream is referenced by the Connect Stream ID field in
+   the WTHEADERS frames.
+
 
 
 
@@ -617,10 +617,6 @@ Frindell, et al.         Expires 27 August 2020                [Page 11]
 
 Internet-Draft              WebTransportHTTP2              February 2020
 
-
-   negotiated by the CONNECT frame on both segments, and the
-   corresponding stream is referenced by the Connect Stream ID field in
-   the WTHEADERS frames.
 
    +--------+   CONNECT (5)   +---------+    CONNECT (1)   +--------+
    | client |>--------------->|  proxy  |>---------------->| server |
@@ -665,7 +661,11 @@ Internet-Draft              WebTransportHTTP2              February 2020
    SETTINGS parameter, avoiding potential protocol confusion attacks by
    ensuring the HTTP/2 server explicitly supports the WebTransport
    protocol.  It also requires the use of the Origin header, providing
+   the server with the ability to deny access to Web-based clients that
+   do not originate from a trusted origin.
 
+   Just like HTTP/2 itself, Http2Transport pools traffic to different
+   origins within a single connection.  Different origins imply
 
 
 
@@ -674,11 +674,6 @@ Frindell, et al.         Expires 27 August 2020                [Page 12]
 Internet-Draft              WebTransportHTTP2              February 2020
 
 
-   the server with the ability to deny access to Web-based clients that
-   do not originate from a trusted origin.
-
-   Just like HTTP/2 itself, Http2Transport pools traffic to different
-   origins within a single connection.  Different origins imply
    different trust domains, meaning that the implementations have to
    treat each transport as potentially hostile towards others on the
    same connection.  One potential attack is a resource exhaustion
@@ -723,17 +718,17 @@ Internet-Draft              WebTransportHTTP2              February 2020
    Specification:  _RFC Editor: Please fill in this value with the RFC
       number for this document_
 
+6.3.  HTTP/2 Error Code Registry
+
+   The following entries are added to the "HTTP/2 Error Code" registry
+   that was established by Section 11.2 of [RFC7540].
+
 
 
 Frindell, et al.         Expires 27 August 2020                [Page 13]
 
 Internet-Draft              WebTransportHTTP2              February 2020
 
-
-6.3.  HTTP/2 Error Code Registry
-
-   The following entries are added to the "HTTP/2 Error Code" registry
-   that was established by Section 11.2 of [RFC7540].
 
    Name:  WTHEADERS_STREAM_ERROR
 
@@ -778,6 +773,11 @@ Internet-Draft              WebTransportHTTP2              February 2020
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/info/rfc3986>.
+
+   [RFC6455]  Fette, I. and A. Melnikov, "The WebSocket Protocol",
+
 
 
 
@@ -786,10 +786,6 @@ Frindell, et al.         Expires 27 August 2020                [Page 14]
 Internet-Draft              WebTransportHTTP2              February 2020
 
 
-              RFC 3986, DOI 10.17487/RFC3986, January 2005,
-              <https://www.rfc-editor.org/info/rfc3986>.
-
-   [RFC6455]  Fette, I. and A. Melnikov, "The WebSocket Protocol",
               RFC 6455, DOI 10.17487/RFC6455, December 2011,
               <https://www.rfc-editor.org/info/rfc6455>.
 
@@ -831,8 +827,12 @@ Internet-Draft              WebTransportHTTP2              February 2020
               DOI 10.17487/RFC6202, April 2011,
               <https://www.rfc-editor.org/info/rfc6202>.
 
+Acknowledgments
 
+   Thanks to Anthony Chivetta, Joshua Otto, and Valentin Pistol for
+   their contributions in the design and implementation of this work.
 
+Authors' Addresses
 
 
 
@@ -841,13 +841,6 @@ Frindell, et al.         Expires 27 August 2020                [Page 15]
 
 Internet-Draft              WebTransportHTTP2              February 2020
 
-
-Acknowledgments
-
-   Thanks to Anthony Chivetta, Joshua Otto, and Valentin Pistol for
-   their contributions in the design and implementation of this work.
-
-Authors' Addresses
 
    Alan Frindell
    Facebook Inc.
@@ -883,6 +876,13 @@ Authors' Addresses
    Facebook Inc.
 
    Email: woo@fb.com
+
+
+
+
+
+
+
 
 
 
