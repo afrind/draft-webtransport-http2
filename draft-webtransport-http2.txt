@@ -90,8 +90,8 @@ Table of Contents
    4.  Using WebTransport Streams  . . . . . . . . . . . . . . . . .  10
      4.1.  Stream States . . . . . . . . . . . . . . . . . . . . . .  10
      4.2.  Interaction with HTTP/2 Features  . . . . . . . . . . . .  11
-     4.3.  Session Termination . . . . . . . . . . . . . . . . . . .  11
-     4.4.  Intermediaries  . . . . . . . . . . . . . . . . . . . . .  11
+     4.3.  Intermediaries  . . . . . . . . . . . . . . . . . . . . .  11
+     4.4.  Session Termination . . . . . . . . . . . . . . . . . . .  12
    5.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
      6.1.  HTTP/2 Frame Type Registry  . . . . . . . . . . . . . . .  13
@@ -591,16 +591,7 @@ Internet-Draft              WebTransportHTTP2              February 2020
    IDs themselves are an implementation detail and SHOULD NOT be vended
    to clients via a WebTransport API.
 
-4.3.  Session Termination
-
-   An Http2Transport session is terminated when either endpoint closes
-   the stream associated with the CONNECT request that initiated the
-   session.  Upon learning about the session being terminated, both
-   endpoints MUST stop sending new frames on the WebTransport Connect
-   Stream associated with the CONNECT request and reset all WebTransport
-   Streams associated with the session.
-
-4.4.  Intermediaries
+4.3.  Intermediaries
 
    WebTransport Connect Streams, and their corresponding WebTransport
    Streams, can be independently routed by intermediaries on the network
@@ -611,13 +602,6 @@ Internet-Draft              WebTransportHTTP2              February 2020
    MUST route all WebTransport Streams established by WTHEADERS frames
    identically to their corresponding WebTransport Connect Streams.
 
-
-
-Frindell, et al.         Expires 27 August 2020                [Page 11]
-
-Internet-Draft              WebTransportHTTP2              February 2020
-
-
    If an intermediary cannot route WebTransport Streams on a subsequent
    segment of the path, it can fail the extended CONNECT handshake and
    prevent a WebTransport Connect Stream from being established for a
@@ -626,6 +610,14 @@ Internet-Draft              WebTransportHTTP2              February 2020
    An example of such routing, for both client-initiated and server-
    initiated WebTransport streams, is shown in Figure 2 and in Figure 3.
    Note that "webtransport" is specified as the ":protocol" being
+
+
+
+Frindell, et al.         Expires 27 August 2020                [Page 11]
+
+Internet-Draft              WebTransportHTTP2              February 2020
+
+
    negotiated by the CONNECT frame on both segments, and the
    corresponding stream is referenced by the Connect Stream ID field in
    the WTHEADERS frames.
@@ -648,6 +640,15 @@ Internet-Draft              WebTransportHTTP2              February 2020
 
       Figure 3: A server initiates a WebTransport Stream to a client.
 
+4.4.  Session Termination
+
+   An Http2Transport session is terminated when either endpoint closes
+   the stream associated with the CONNECT request that initiated the
+   session.  Upon learning about the session being terminated, both
+   endpoints MUST stop sending new frames on the WebTransport Connect
+   Stream associated with the CONNECT request and reset all WebTransport
+   Streams associated with the session.
+
 5.  Security Considerations
 
    WebTransport Streams established by the CONNECT handshake and the
@@ -664,8 +665,7 @@ Internet-Draft              WebTransportHTTP2              February 2020
    SETTINGS parameter, avoiding potential protocol confusion attacks by
    ensuring the HTTP/2 server explicitly supports the WebTransport
    protocol.  It also requires the use of the Origin header, providing
-   the server with the ability to deny access to Web-based clients that
-   do not originate from a trusted origin.
+
 
 
 
@@ -673,6 +673,9 @@ Frindell, et al.         Expires 27 August 2020                [Page 12]
 
 Internet-Draft              WebTransportHTTP2              February 2020
 
+
+   the server with the ability to deny access to Web-based clients that
+   do not originate from a trusted origin.
 
    Just like HTTP/2 itself, Http2Transport pools traffic to different
    origins within a single connection.  Different origins imply
@@ -719,9 +722,6 @@ Internet-Draft              WebTransportHTTP2              February 2020
 
    Specification:  _RFC Editor: Please fill in this value with the RFC
       number for this document_
-
-
-
 
 
 

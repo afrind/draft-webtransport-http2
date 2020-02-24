@@ -976,10 +976,10 @@ The web API draft corresponding to this document can be found at
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-interaction-with-http-2-fea" class="xref">Interaction with HTTP/2 Features</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-session-termination" class="xref">Session Termination</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-intermediaries" class="xref">Intermediaries</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.4">
-                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-intermediaries" class="xref">Intermediaries</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-session-termination" class="xref">Session Termination</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -1408,42 +1408,30 @@ an implementation detail and SHOULD NOT be vended to clients via a WebTransport
 API.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="session-termination">
-<section id="section-4.3">
-        <h3 id="name-session-termination">
-<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-session-termination" class="section-name selfRef">Session Termination</a>
-        </h3>
-<p id="section-4.3-1">An Http2Transport session is terminated when either endpoint closes the stream
-associated with the CONNECT request that initiated the session. Upon learning
-about the session being terminated, both endpoints MUST stop sending new frames
-on the WebTransport Connect Stream associated with the CONNECT request and reset
-all WebTransport Streams associated with the session.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="intermediaries">
-<section id="section-4.4">
+<section id="section-4.3">
         <h3 id="name-intermediaries">
-<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-intermediaries" class="section-name selfRef">Intermediaries</a>
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-intermediaries" class="section-name selfRef">Intermediaries</a>
         </h3>
-<p id="section-4.4-1">WebTransport Connect Streams, and their corresponding WebTransport Streams, can
+<p id="section-4.3-1">WebTransport Connect Streams, and their corresponding WebTransport Streams, can
 be independently routed by intermediaries on the network path. The main purpose
 for a WebTransport Connect Stream is to facilitate imtermediary traversal by
-WebTransport Streams.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
-<p id="section-4.4-2">Any segment on which SETTINGS_ENABLE_WEBTRANSPORT has been negotiated MUST route
+WebTransport Streams.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">Any segment on which SETTINGS_ENABLE_WEBTRANSPORT has been negotiated MUST route
 all WebTransport Streams established by WTHEADERS frames identically to their
-corresponding WebTransport Connect Streams.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
-<p id="section-4.4-3">If an intermediary cannot route WebTransport Streams on a subsequent segment of
+corresponding WebTransport Connect Streams.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">If an intermediary cannot route WebTransport Streams on a subsequent segment of
 the path, it can fail the extended CONNECT handshake and prevent a WebTransport
-Connect Stream from being established for a given endpoint.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
-<p id="section-4.4-4">An example of such routing, for both client-initiated and server-initiated
+Connect Stream from being established for a given endpoint.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">An example of such routing, for both client-initiated and server-initiated
 WebTransport streams, is shown in <a href="#fig-client-routing-example" class="xref">Figure 2</a> and in
 <a href="#fig-server-routing-example" class="xref">Figure 3</a>. Note that "webtransport" is specified as the
 <code>:protocol</code> being negotiated by the CONNECT frame on both segments, and the
 corresponding stream is referenced by the Connect Stream ID field in the
-WTHEADERS frames.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
+WTHEADERS frames.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 <span id="name-a-client-initiates-a-webtra"></span><div id="fig-client-routing-example">
 <figure id="figure-2">
-          <div class="artwork art-text alignLeft" id="section-4.4-5.1">
+          <div class="artwork art-text alignLeft" id="section-4.3-5.1">
 <pre>
 +--------+   CONNECT (5)   +---------+    CONNECT (1)   +--------+
 | client |&gt;---------------&gt;|  proxy  |&gt;----------------&gt;| server |
@@ -1459,7 +1447,7 @@ WTHEADERS frames.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
 </div>
 <span id="name-a-server-initiates-a-webtra"></span><div id="fig-server-routing-example">
 <figure id="figure-3">
-          <div class="artwork art-text alignLeft" id="section-4.4-6.1">
+          <div class="artwork art-text alignLeft" id="section-4.3-6.1">
 <pre>
 +--------+   CONNECT (5)   +---------+    CONNECT (1)   +--------+
 | client |&gt;---------------&gt;|  proxy  |&gt;----------------&gt;| server |
@@ -1473,6 +1461,18 @@ WTHEADERS frames.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
 <a href="#name-a-server-initiates-a-webtra" class="selfRef">A server initiates a WebTransport Stream to a client.</a>
           </figcaption></figure>
 </div>
+</section>
+</div>
+<div id="session-termination">
+<section id="section-4.4">
+        <h3 id="name-session-termination">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-session-termination" class="section-name selfRef">Session Termination</a>
+        </h3>
+<p id="section-4.4-1">An Http2Transport session is terminated when either endpoint closes the stream
+associated with the CONNECT request that initiated the session. Upon learning
+about the session being terminated, both endpoints MUST stop sending new frames
+on the WebTransport Connect Stream associated with the CONNECT request and reset
+all WebTransport Streams associated with the session.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
