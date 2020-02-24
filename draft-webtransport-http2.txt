@@ -394,15 +394,15 @@ Frindell, et al.         Expires 27 August 2020                 [Page 7]
 Internet-Draft              WebTransportHTTP2              February 2020
 
 
-   [[ From Client ]]                       [[ From Server ]]
+   [[ From Client ]]                   [[ From Server ]]
 
    SETTINGS
    SETTINGS_ENABLE_CONNECT_[..] = 1
-   SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+   SETTINGS_ENABLE_WEBTRANSPORT = 1
 
-                                           SETTINGS
-                                           SETTINGS_ENABLE_CONNECT_[..] = 1
-                                           SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+                                       SETTINGS
+                                       SETTINGS_ENABLE_CONNECT_[..] = 1
+                                       SETTINGS_ENABLE_WEBTRANSPORT = 1
 
    HEADERS + END_HEADERS
    + STREAM_ID = 3
@@ -412,9 +412,9 @@ Internet-Draft              WebTransportHTTP2              February 2020
    :path = /
    :authority = server.example.com
 
-                                           HEADERS + END_HEADERS
-                                           + STREAM_ID = 3
-                                           :status = 200
+                                       HEADERS + END_HEADERS
+                                       + STREAM_ID = 3
+                                       :status = 200
 
    WTHEADERS + END_HEADERS
    + STREAM_ID = 5
@@ -424,16 +424,16 @@ Internet-Draft              WebTransportHTTP2              February 2020
    :path = /
    :authority = server.example.com
 
-                                           WTHEADERS + END_HEADERS
-                                           + STREAM_ID = 5
-                                           + CONNECT_STREAM = 3
-                                           :status = 200
+                                       WTHEADERS + END_HEADERS
+                                       + STREAM_ID = 5
+                                       + CONNECT_STREAM = 3
+                                       :status = 200
 
    DATA + STREAM_ID = 5
    WebTransport Data
 
-                                           DATA + STREAM_ID = 5 + END_STREAM
-                                           WebTransport Data
+                                       DATA + STREAM_ID = 5 + END_STREAM
+                                       WebTransport Data
 
    DATA + STREAM_ID = 5 + END_STREAM
    WebTransport Data
@@ -450,15 +450,15 @@ Frindell, et al.         Expires 27 August 2020                 [Page 8]
 Internet-Draft              WebTransportHTTP2              February 2020
 
 
-   [[ From Client ]]                       [[ From Server ]]
+   [[ From Client ]]                   [[ From Server ]]
 
    SETTINGS
    SETTINGS_ENABLE_CONNECT_[..] = 1
-   SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+   SETTINGS_ENABLE_WEBTRANSPORT = 1
 
-                                           SETTINGS
-                                           SETTINGS_ENABLE_CONNECT_[..] = 1
-                                           SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+                                       SETTINGS
+                                       SETTINGS_ENABLE_CONNECT_[..] = 1
+                                       SETTINGS_ENABLE_WEBTRANSPORT = 1
 
    HEADERS + END_HEADERS
    + STREAM_ID = 3
@@ -468,31 +468,31 @@ Internet-Draft              WebTransportHTTP2              February 2020
    :path = /
    :authority = server.example.com
 
-                                           HEADERS + END_HEADERS
-                                           + STREAM_ID = 3
-                                           :status = 200
+                                       HEADERS + END_HEADERS
+                                       + STREAM_ID = 3
+                                       :status = 200
 
-                                           WTHEADERS + END_HEADERS
-                                           + STREAM_ID = 2
-                                           + CONNECT_STREAM = 3
-                                           :method = GET
-                                           :scheme = https
-                                           :path = /
-                                           :authority = client.example.com
+                                       WTHEADERS + END_HEADERS
+                                       + STREAM_ID = 2
+                                       + CONNECT_STREAM = 3
+                                       :method = GET
+                                       :scheme = https
+                                       :path = /
+                                       :authority = client.example.com
 
    WTHEADERS + END_HEADERS
    + STREAM_ID = 2
    + CONNECT_STREAM = 3
    :status = 200
 
-                                           DATA + STREAM_ID = 2
-                                           WebTransport Data
+                                       DATA + STREAM_ID = 2
+                                       WebTransport Data
 
    DATA + STREAM_ID = 2 + END_STREAM
    WebTransport Data
 
-                                           DATA + STREAM_ID = 2 + END_STREAM
-                                           WebTransport Data
+                                       DATA + STREAM_ID = 2 + END_STREAM
+                                       WebTransport Data
 
 
 

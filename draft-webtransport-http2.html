@@ -1238,15 +1238,15 @@ This example is intended to closely follow the example in Section 5.1 of
 <span>[<a href="#RFC8441" class="xref">RFC8441</a>]</span> to help illustrate the differences defined in this document.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.5-2">
 <pre>
-[[ From Client ]]                       [[ From Server ]]
+[[ From Client ]]                   [[ From Server ]]
 
 SETTINGS
 SETTINGS_ENABLE_CONNECT_[..] = 1
-SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+SETTINGS_ENABLE_WEBTRANSPORT = 1
 
-                                        SETTINGS
-                                        SETTINGS_ENABLE_CONNECT_[..] = 1
-                                        SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+                                    SETTINGS
+                                    SETTINGS_ENABLE_CONNECT_[..] = 1
+                                    SETTINGS_ENABLE_WEBTRANSPORT = 1
 
 HEADERS + END_HEADERS
 + STREAM_ID = 3
@@ -1256,9 +1256,9 @@ HEADERS + END_HEADERS
 :path = /
 :authority = server.example.com
 
-                                        HEADERS + END_HEADERS
-                                        + STREAM_ID = 3
-                                        :status = 200
+                                    HEADERS + END_HEADERS
+                                    + STREAM_ID = 3
+                                    :status = 200
 
 WTHEADERS + END_HEADERS
 + STREAM_ID = 5
@@ -1268,16 +1268,16 @@ WTHEADERS + END_HEADERS
 :path = /
 :authority = server.example.com
 
-                                        WTHEADERS + END_HEADERS
-                                        + STREAM_ID = 5
-                                        + CONNECT_STREAM = 3
-                                        :status = 200
+                                    WTHEADERS + END_HEADERS
+                                    + STREAM_ID = 5
+                                    + CONNECT_STREAM = 3
+                                    :status = 200
 
 DATA + STREAM_ID = 5
 WebTransport Data
 
-                                        DATA + STREAM_ID = 5 + END_STREAM
-                                        WebTransport Data
+                                    DATA + STREAM_ID = 5 + END_STREAM
+                                    WebTransport Data
 
 DATA + STREAM_ID = 5 + END_STREAM
 WebTransport Data
@@ -1287,15 +1287,15 @@ WebTransport Data
 difference here is the endpoint that sends the first WTHEADERS frame.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-3.5-4">
 <pre>
-[[ From Client ]]                       [[ From Server ]]
+[[ From Client ]]                   [[ From Server ]]
 
 SETTINGS
 SETTINGS_ENABLE_CONNECT_[..] = 1
-SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+SETTINGS_ENABLE_WEBTRANSPORT = 1
 
-                                        SETTINGS
-                                        SETTINGS_ENABLE_CONNECT_[..] = 1
-                                        SETTINGS_ENABLE_WEBTRANSPORT[..] = 1
+                                    SETTINGS
+                                    SETTINGS_ENABLE_CONNECT_[..] = 1
+                                    SETTINGS_ENABLE_WEBTRANSPORT = 1
 
 HEADERS + END_HEADERS
 + STREAM_ID = 3
@@ -1305,31 +1305,31 @@ HEADERS + END_HEADERS
 :path = /
 :authority = server.example.com
 
-                                        HEADERS + END_HEADERS
-                                        + STREAM_ID = 3
-                                        :status = 200
+                                    HEADERS + END_HEADERS
+                                    + STREAM_ID = 3
+                                    :status = 200
 
-                                        WTHEADERS + END_HEADERS
-                                        + STREAM_ID = 2
-                                        + CONNECT_STREAM = 3
-                                        :method = GET
-                                        :scheme = https
-                                        :path = /
-                                        :authority = client.example.com
+                                    WTHEADERS + END_HEADERS
+                                    + STREAM_ID = 2
+                                    + CONNECT_STREAM = 3
+                                    :method = GET
+                                    :scheme = https
+                                    :path = /
+                                    :authority = client.example.com
 
 WTHEADERS + END_HEADERS
 + STREAM_ID = 2
 + CONNECT_STREAM = 3
 :status = 200
 
-                                        DATA + STREAM_ID = 2
-                                        WebTransport Data
+                                    DATA + STREAM_ID = 2
+                                    WebTransport Data
 
 DATA + STREAM_ID = 2 + END_STREAM
 WebTransport Data
 
-                                        DATA + STREAM_ID = 2 + END_STREAM
-                                        WebTransport Data
+                                    DATA + STREAM_ID = 2 + END_STREAM
+                                    WebTransport Data
 </pre><a href="#section-3.5-4" class="pilcrow">¶</a>
 </div>
 </section>
