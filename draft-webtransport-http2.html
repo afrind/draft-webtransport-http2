@@ -1484,9 +1484,8 @@ frame are expected to be protected with a TLS connection. They inherit the
 security properties of this cryptographic context, as well as the security
 properties of client-server communication via HTTP/2 as described in
 <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">The security considerations of <span>[<a href="#RFC8441" class="xref">RFC8441</a>]</span> Section 8 and <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span>
-Section 10, and Section 10.5.2 especially, apply to this use of the
-CONNECT method.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-2">The security considerations of <span>[<a href="#RFC8441" class="xref">RFC8441</a>]</span> Section 8 and <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span> Section 10, and
+Section 10.5.2 especially, apply to this use of the CONNECT method.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">Http2Transport requires explicit opt-in through the use of a HTTP/2 SETTINGS
 parameter, avoiding potential protocol confusion attacks by ensuring the HTTP/2
 server explicitly supports the WebTransport protocol. It also requires the use
